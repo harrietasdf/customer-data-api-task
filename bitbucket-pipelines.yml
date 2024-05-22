@@ -10,17 +10,17 @@ image: gradle:6.6.0
 pipelines:
   default:
     - parallel:
-      - step:
-          name: Build and Test
-          caches:
-            - gradle
-          script:
-            - gradle build
-          after-script:
-            - pipe: atlassian/checkstyle-report:0.3.0
-      - step:
-          name: Security Scan
-          script:
-            # Run a security scan for sensitive data.
-            # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
-            - pipe: atlassian/git-secrets-scan:0.5.1
+        - step:
+            name: Build and Test
+            caches:
+              - gradle
+            script:
+              - gradle build
+            after-script:
+              - pipe: atlassian/checkstyle-report:0.3.0
+        - step:
+            name: Security Scan
+            script:
+              # Run a security scan for sensitive data.
+              # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+              - pipe: atlassian/git-secrets-scan:0.5.1

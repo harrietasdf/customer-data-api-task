@@ -5,9 +5,9 @@ info:
   version: 1.2.0
   license:
     name: Apache 2.0
-    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
 servers:
-  - url: 'localhost:8080/test-api'
+  - url: "localhost:8080/test-api"
     description: Development server
 tags:
   - name: Consents
@@ -15,7 +15,7 @@ tags:
   - name: Accounts
     description: Operation to get Account information
 paths:
-  '/consents/v1/consents':
+  "/consents/v1/consents":
     post:
       tags:
         - Consents
@@ -23,22 +23,22 @@ paths:
       description: Create a consent
       operationId: postConsent
       parameters:
-        - $ref: '#/components/parameters/Authorization'
+        - $ref: "#/components/parameters/Authorization"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateConsent'
+              $ref: "#/components/schemas/CreateConsent"
         description: Payload to create a consent.
         required: true
       responses:
-        '200':
-          $ref: '#/components/responses/OkConsent'
-        '403':
+        "200":
+          $ref: "#/components/responses/OkConsent"
+        "403":
           description: 403 response
-        '500':
+        "500":
           description: 500 response
-  '/consents/v1/consents/{consentId}':
+  "/consents/v1/consents/{consentId}":
     put:
       tags:
         - Consents
@@ -46,23 +46,23 @@ paths:
       description: Update a consent
       operationId: putConsent
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/ConsentId'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/ConsentId"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateConsent'
+              $ref: "#/components/schemas/UpdateConsent"
         description: Payload to update consent status
         required: true
       responses:
-        '200':
-          $ref: '#/components/responses/OkConsent'
-        '403':
+        "200":
+          $ref: "#/components/responses/OkConsent"
+        "403":
           description: 403 response
-        '404':
+        "404":
           description: 404 response
-        '500':
+        "500":
           description: 500 response
     get:
       tags:
@@ -71,18 +71,18 @@ paths:
       description: Get consent
       operationId: getConsent
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/ConsentId'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/ConsentId"
       responses:
-        '200':
-          $ref: '#/components/responses/OkConsent'
-        '403':
+        "200":
+          $ref: "#/components/responses/OkConsent"
+        "403":
           description: 403 response
-        '404':
+        "404":
           description: 404 response
-        '500':
+        "500":
           description: 500 response
-  '/accounts/v1/accounts':
+  "/accounts/v1/accounts":
     get:
       tags:
         - Accounts
@@ -90,15 +90,15 @@ paths:
       description: List accounts
       operationId: listAccounts
       parameters:
-        - $ref: '#/components/parameters/Authorization'
+        - $ref: "#/components/parameters/Authorization"
       responses:
-        '200':
-          $ref: '#/components/responses/OkListAccounts'
-        '403':
+        "200":
+          $ref: "#/components/responses/OkListAccounts"
+        "403":
           description: 403 response
-        '500':
+        "500":
           description: 500 response
-  '/accounts/v1/accounts/{accountId}':
+  "/accounts/v1/accounts/{accountId}":
     get:
       tags:
         - Accounts
@@ -106,23 +106,23 @@ paths:
       description: Get accounts information
       operationId: getAccounts
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AccountId'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AccountId"
       responses:
-        '200':
-          $ref: '#/components/responses/OkAccounts'
-        '403':
+        "200":
+          $ref: "#/components/responses/OkAccounts"
+        "403":
           description: 403 response
-        '404':
+        "404":
           description: 404 response
-        '500':
+        "500":
           description: 500 response
 components:
   parameters:
     Authorization:
       name: Authorization
       in: header
-      description: | 
+      description: |
         Cabeçalho HTTP padrão. Permite que as credenciais sejam fornecidas dependendo do tipo de recurso solicitado
       required: true
       schema:
@@ -154,7 +154,7 @@ components:
         - data
       properties:
         data:
-          $ref: '#/components/schemas/CreateConsentData'
+          $ref: "#/components/schemas/CreateConsentData"
     CreateConsentData:
       type: object
       description: Utilizado para informar para qual estado deve ir o pagamento. Atualmente o único valor possível é CANC.
@@ -183,7 +183,7 @@ components:
         - data
       properties:
         data:
-          $ref: '#/components/schemas/UpdateConsentData'
+          $ref: "#/components/schemas/UpdateConsentData"
     UpdateConsentData:
       type: object
       description: Utilizado para informar para qual estado deve ir o pagamento. Atualmente o único valor possível é CANC.
@@ -207,7 +207,7 @@ components:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/ResponseConsentData'
+          $ref: "#/components/schemas/ResponseConsentData"
     ResponseConsentData:
       type: object
       description: Response contain all the consent information
@@ -252,14 +252,14 @@ components:
         - data
       properties:
         data:
-          $ref: '#/components/schemas/ResponseAccountData'
+          $ref: "#/components/schemas/ResponseAccountData"
     ResponseListAccount:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/ResponseAccountData'
+            $ref: "#/components/schemas/ResponseAccountData"
     ResponseAccountData:
       type: object
       description: Utilizado para informar para qual estado deve ir o pagamento. Atualmente o único valor possível é CANC.
@@ -284,16 +284,16 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ResponseConsent'
+            $ref: "#/components/schemas/ResponseConsent"
     OkListAccounts:
       description: Response for list of accounts
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ResponseListAccount'
+            $ref: "#/components/schemas/ResponseListAccount"
     OkAccounts:
       description: Response for Accounts
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ResponseAccount'
+            $ref: "#/components/schemas/ResponseAccount"

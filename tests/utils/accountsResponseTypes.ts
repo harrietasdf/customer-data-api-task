@@ -1,10 +1,10 @@
 export type getAccountsResponseObject = {
-        data: [accountsDataObject]
-}
+  data: [accountsDataObject];
+};
 
 export type accountsDataObject = {
-        id: string,
-        bank: string,
-        accountNumber: string,
-        creationDateTime: string
-}
+  id: string;
+  bank: string;
+  accountNumber: string;
+  creationDateTime: string;
+};

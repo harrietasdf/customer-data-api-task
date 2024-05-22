@@ -16,7 +16,6 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - Have Gradle installed
 - Have java 17 Amazon Coretto installed
 
-
 ## 🚀 Running the API
 
 To run the Api you must clone this repository and run the following command:
@@ -26,6 +25,7 @@ Linux e macOS:
 ```
 make run-local
 ```
+
 The host will be http://localhost:8080 when the docker spins up
 
 ## ☕ Using Customer Data Api
@@ -33,6 +33,7 @@ The host will be http://localhost:8080 when the docker spins up
 The security of the Api consist of a jwt token with a header and payload (the sign part is omitted on purpose).
 
 Header
+
 ```
 {
   "alg": "none",
@@ -43,6 +44,7 @@ echo -n '{"alg": "none","typ": "JWT"}' | base64
 ```
 
 Payload
+
 ```
 {
   "scope": "consents",
@@ -51,6 +53,7 @@ Payload
 
 echo -n '{"scope": "consents","client_id": "client1"}' | base64
 ```
+
 The api supports 2 scopes (consents, accounts). The consentId should go as a scope in the access token as bellow
 
 ```json
@@ -62,7 +65,6 @@ The api supports 2 scopes (consents, accounts). The consentId should go as a sco
 
 You must specify each for each call you make
 
-
 You put together the two parts generate by the commands above and also a dot(.) at the end
 
 ```
@@ -71,8 +73,10 @@ eyJhbGciOiAibm9uZSIsInR5cCI6ICJKV1QifQ==.eyJzY29wZSI6ICJjb25zZW50cyIsImNsaWVudF9
 
 How to create a consent
 Permissions allowed:
+
 - ACCOUNTS_READ
 - CREDIT_CARD_READ
+
 ```
 curl --location 'http://localhost:8080/test-api/consents/v1/consents' \
 --header 'Content-Type: application/json' \
@@ -87,8 +91,10 @@ curl --location 'http://localhost:8080/test-api/consents/v1/consents' \
 
 How to update a consent
 Permissions allowed:
+
 - AUTHORISED
 - REJECTED
+
 ```
 curl --location --request PUT 'http://localhost:8080/test-api/consents/v1/consents/<CONSENTID>' \
 --header 'Content-Type: application/json' \
