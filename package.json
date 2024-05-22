@@ -23,5 +23,8 @@
     "@types/node": "^20.12.12",
     "eslint": "^9.3.0",
     "globals": "^15.3.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
   }
 }

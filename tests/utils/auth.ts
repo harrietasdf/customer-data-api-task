@@ -1,4 +1,5 @@
 import { BASE_URL, CONSENTS_BASE_URL } from "../fake.env.json"
+import fetch from 'node-fetch'
 
 const encodeHeader = () => {
     const headerData = '{"alg": "none","typ": "JWT"}'
@@ -24,8 +25,8 @@ const authToken = (authHeader, authPayload) => {
 const consentAuthToken = authToken(encodeHeader(), encodeConsentsPayload())
 
 // Function to generate accounts authorization token
-export const generateAccountsAuthToken = (consentId) => {
-    return authToken(encodeHeader(), encodeAccountsPayload(consentId));
+export const generateAccountsAuthToken = (consentId: string) => {
+    return {"Authorization": `${authToken(encodeHeader(), encodeAccountsPayload(consentId))}`}
 };
 
 export const consentHeaderObject = {
