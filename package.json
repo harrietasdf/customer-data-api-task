@@ -1,0 +1,27 @@
+{
+  "name": "customer-data-api-java-automation-suite",
+  "version": "1.0.0",
+  "description": "Test automation suite for customer-data-api-java",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "make run-local",
+    "test": "npx playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/thiagohcn/customer-data-api-java.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/thiagohcn/customer-data-api-java/issues"
+  },
+  "homepage": "https://bitbucket.org/thiagohcn/customer-data-api-java#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.12.12",
+    "eslint": "^9.3.0",
+    "globals": "^15.3.0"
+  }
+}
