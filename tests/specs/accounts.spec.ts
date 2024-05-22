@@ -6,6 +6,7 @@ import {
 } from "../utils/auth";
 import { getAccountsResponseObject } from "../utils/accountsResponseTypes";
 import { getAccountsResponseValidatior } from "../utils/openApiSpec";
+import { base_url, accounts } from "../env.json"
 
 test("User with valid authentication sees an accounts list", async function ({
   request,
@@ -14,9 +15,8 @@ test("User with valid authentication sees an accounts list", async function ({
     await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
   expect(consentPutResponseStatus).toEqual("AUTHORISED");
 
-  // `${process.env.BASE_URL}${process.env.ACCOUNTS_BASE_URL}`,
   const accountsGetResponse = await request.get(
-    "http://localhost:8080/test-api/accounts/v1/accounts",
+    `${base_url}${accounts}`,
     {
       headers: generateAccountsAuthToken(consentId),
     },
@@ -46,7 +46,7 @@ test("User has rejected consent, receive a 403 forbidden error", async function 
     await createConsentAndUpdateStatus("ACCOUNTS_READ", "REJECTED");
   expect(consentPutResponseStatus).toEqual("REJECTED");
   const accountsGetResponse = await request.get(
-    "http://localhost:8080/test-api/accounts/v1/accounts",
+    `${base_url}${accounts}`,
     {
       headers: generateAccountsAuthToken(consentId),
     },
@@ -75,7 +75,7 @@ test("User has awaiting authorization consent, receive a 403 forbidden error", a
     await createConsent("ACCOUNTS_READ");
   expect(consentPostResponseStatus).toEqual("AWAITING_AUTHORISATION");
   const accountsGetResponse = await request.get(
-    "http://localhost:8080/test-api/accounts/v1/accounts",
+    `${base_url}${accounts}`,
     {
       headers: generateAccountsAuthToken(consentId),
     },
@@ -104,7 +104,7 @@ test("User has credit card read consent, receive a 403 forbidden error", async f
     await createConsentAndUpdateStatus("CREDIT_CARD_READ", "AUTHORISED");
   expect(consentPutResponseStatus).toEqual("AUTHORISED");
   const accountsGetResponse = await request.get(
-    "http://localhost:8080/test-api/accounts/v1/accounts",
+    `${base_url}${accounts}`,
     {
       headers: generateAccountsAuthToken(consentId),
     },
@@ -130,7 +130,7 @@ test("User has no authorization header, receive a 401 unauthorized error", async
   request,
 }) {
   const accountsGetResponse = await request.get(
-    "http://localhost:8080/test-api/accounts/v1/accounts"
+    `${base_url}${accounts}`
   );
 
   const accountsGetResponseBody: getAccountsResponseObject =

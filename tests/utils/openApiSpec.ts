@@ -15,3 +15,10 @@ export const getAccountsResponseValidatior = async () => {
     responses: spec.paths["/accounts/v1/accounts"].get.responses,
   });
 };
+
+export const getAccountsByIdResponseValidatior = async () => {
+  const spec = (await swaggerSpec()) as any;
+  return new OpenAPIResponseValidator({
+    responses: spec.paths["/accounts/v1/accounts/{accountId}"].get.responses,
+  });
+};

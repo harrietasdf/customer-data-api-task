@@ -2,7 +2,7 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "tests/",
-  testMatch: "tests/steps/**/*.steps.ts",
+  testMatch: "tests/specs/**/*.spec.ts",
   fullyParallel: true,
   // eslint-disable-next-line no-undef
   retries: process.env.CI ? 2 : 0,

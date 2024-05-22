@@ -1,4 +1,5 @@
 import { fetch } from "fetch-h2";
+import { base_url, consents } from "../env.json"
 
 const encodeHeader = () => {
   const headerData = '{"alg": "none","typ": "JWT"}';
@@ -58,8 +59,7 @@ const consentUpdateToAuthorisedRequestObject = (authorization: string) => {
 export const consentPutToAuthorisedRequestBody = (authorization: string) =>
   JSON.stringify(consentUpdateToAuthorisedRequestObject(authorization));
 
-// const consentUrl = `${process.env.BASE_URL}${process.env.CONSENTS_BASE_URL}`;
-const consentUrl = "http://localhost:8080/test-api/consents/v1/consents/";
+const consentUrl = `${base_url}${consents}`;
 
 export async function createConsentAndUpdateStatus(
   permission: string,
