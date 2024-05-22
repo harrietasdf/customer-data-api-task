@@ -100,3 +100,25 @@ export async function createConsentAndUpdateStatus(
 
   return { consentId, consentPutResponseStatus };
 }
+
+export async function createConsent(
+  permission: string
+) {
+  // Post request to create consent
+  const consentPostResponse = await fetch(consentUrl, {
+    method: "POST",
+    headers: consentHeaderObject,
+    body: consentPostRequestBody(permission),
+  });
+
+  // Check if the POST request was successful
+  if (!consentPostResponse.ok) {
+    throw new Error(
+      `POST request failed: ${consentPostResponse.status} ${consentPostResponse.statusText}`,
+    );
+  }
+  const consentPostResponseBody = await consentPostResponse.json()
+  const consentPostResponseStatus = consentPostResponseBody.data.status
+  const consentId = consentPostResponseBody.data.consentId;
+  return { consentId, consentPostResponseStatus };
+}
