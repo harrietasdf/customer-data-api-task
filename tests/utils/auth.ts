@@ -1,5 +1,5 @@
 import { fetch } from "fetch-h2";
-import { base_url, consents } from "../env.json"
+import { base_url, consents } from "../env.json";
 import { expect } from "@playwright/test";
 
 const encodeHeader = () => {
@@ -81,7 +81,7 @@ export async function createConsentAndUpdateStatus(
   }
   const consentPostResponseBody = await consentPostResponse.json();
   const consentId = consentPostResponseBody.data.consentId;
- 
+
   // Put request to update consent status
   const consentPutResponse = await fetch(`${consentUrl}/${consentId}`, {
     method: "PUT",
@@ -102,9 +102,7 @@ export async function createConsentAndUpdateStatus(
   return { consentId, consentPutResponseStatus };
 }
 
-export async function createConsent(
-  permission: string
-) {
+export async function createConsent(permission: string) {
   // Post request to create consent
   const consentPostResponse = await fetch(consentUrl, {
     method: "POST",
@@ -118,8 +116,8 @@ export async function createConsent(
       `POST request failed: ${consentPostResponse.status} ${consentPostResponse.statusText}`,
     );
   }
-  const consentPostResponseBody = await consentPostResponse.json()
-  const consentPostResponseStatus = consentPostResponseBody.data.status
+  const consentPostResponseBody = await consentPostResponse.json();
+  const consentPostResponseStatus = consentPostResponseBody.data.status;
   const consentId = consentPostResponseBody.data.consentId;
   return { consentId, consentPostResponseStatus };
 }

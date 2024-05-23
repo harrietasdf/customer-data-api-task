@@ -1,14 +1,23 @@
-export type getAccounts200ResponseObject = {
-  data: [accountsDataObject];
+export type GetAccounts200ResponseObject = {
+  data: [AccountsDataObject];
 };
 
-export type accountsDataObject = {
+export type AccountsDataObject = {
   id: string;
   bank: string;
   accountNumber: string;
   creationDateTime: string;
 };
 
-export type getAccountsErrorResponseObject = {
-  message: string
-}
+export type GetAccountsErrorResponseObject = {
+  message: string;
+};
+
+export type GetAccountsByIdResponseObject = {
+  data: {
+    id: string;
+    bank: string;
+    accountNumber: string;
+    creationDateTime: string;
+  };
+};
