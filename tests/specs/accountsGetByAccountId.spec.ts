@@ -1,6 +1,10 @@
 import test, { expect } from "@playwright/test";
 import { createConsentAndUpdateStatus } from "../utils/auth";
-import { callGetAccounts, callGetAccountsByAccountId, validAccountIds } from "../utils/utils";
+import {
+  callGetAccounts,
+  callGetAccountsByAccountId,
+  validAccountIds,
+} from "../utils/utils";
 import { getAccountsByIdResponseValidatior } from "../utils/openApiSpec";
 import {
   AccountsDataObject,
@@ -47,7 +51,10 @@ test("User with Invalid account ID, receive a 404 Not Found error", async functi
 
   const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
     await accountsGetByIdResponse.json();
-
+  if (accountsGetByIdResponse.status !== 404) {
+    console.log("Response status code:", accountsGetByIdResponse.status);
+    console.log("Response body:", accountsGetByIdResponseBody);
+  }
   // I would use the getAccountsByIdResponseValidatior() here if the OpenAPISpec had response error handling info
   expect(accountsGetByIdResponse.status).toEqual(404);
   expect(accountsGetByIdResponseBody.message).toEqual("Not Found");
@@ -64,26 +71,35 @@ test("User inputs malicious characters in account ID, receive 401 unauthorized",
   const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
     await accountsGetByIdResponse.json();
 
+  if (accountsGetByIdResponse.status !== 401) {
+    console.log("Response status code:", accountsGetByIdResponse.status);
+    console.log("Response body:", accountsGetByIdResponseBody);
+  }
   // I would use the getAccountsByIdResponseValidatior() here if the OpenAPISpec had response error handling info
   expect(accountsGetByIdResponse.status).toEqual(401);
   expect(accountsGetByIdResponseBody.message).toEqual("Unauthorized");
 });
 
 test("User with valid authentication attempts to access another user's accounts list, receives 403 forbidden", async function ({}) {
-  const { consentId: consentIdUserA, consentPutResponseStatus: consentAPutResponseStatus } =
-    await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
+  const {
+    consentId: consentIdUserA,
+    consentPutResponseStatus: consentAPutResponseStatus,
+  } = await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
   expect(consentAPutResponseStatus).toEqual("AUTHORISED");
 
-  const { consentId: consentIdUserB, consentPutResponseStatus: consentPutBResponseStatus } =
-    await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
+  const {
+    consentId: consentIdUserB,
+    consentPutResponseStatus: consentPutBResponseStatus,
+  } = await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
   expect(consentPutBResponseStatus).toEqual("AUTHORISED");
 
   const getAccountNumberUserB = async () => {
-    const getAccountsUserBResponse = await callGetAccounts(consentIdUserB)
-    const getAccountsUserBResponseBody: AccountsDataObject = await getAccountsUserBResponse.json()
-    return getAccountsUserBResponseBody.accountNumber
-  }
-  const accountIdUserB = await getAccountNumberUserB()
+    const getAccountsUserBResponse = await callGetAccounts(consentIdUserB);
+    const getAccountsUserBResponseBody: AccountsDataObject =
+      await getAccountsUserBResponse.json();
+    return getAccountsUserBResponseBody.accountNumber;
+  };
+  const accountIdUserB = await getAccountNumberUserB();
 
   const accountsGetByIdResponse = await callGetAccountsByAccountId(
     consentIdUserA,
@@ -91,8 +107,12 @@ test("User with valid authentication attempts to access another user's accounts 
   );
 
   const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
-  await accountsGetByIdResponse.json();
+    await accountsGetByIdResponse.json();
 
+  if (accountsGetByIdResponse.status !== 403) {
+    console.log("Response status code:", accountsGetByIdResponse.status);
+    console.log("Response body:", accountsGetByIdResponseBody);
+  }
   // I would use the getAccountsByIdResponseValidatior() here if the OpenAPISpec had response error handling info
   expect(accountsGetByIdResponse.status).toEqual(403);
   expect(accountsGetByIdResponseBody.message).toEqual("Forbidden");

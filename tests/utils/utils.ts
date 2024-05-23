@@ -1,6 +1,6 @@
 import { generateAccountsAuthToken } from "./auth";
 
-export const { BASE_URL, CONSENTS_URL, ACCOUNTS_URL } = process.env 
+export const { BASE_URL, CONSENTS_URL, ACCOUNTS_URL } = process.env;
 
 export const validAccountIds = {
   Nubank: "1234567-8",

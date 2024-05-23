@@ -14,7 +14,7 @@ const encodeConsentsPayload = () => {
 };
 
 const encodeAccountsPayload = (consentId: string) => {
-  const accountsPayloadData = `{"scope": "consents consent:${consentId}","client_id": "client1"}`;
+  const accountsPayloadData = `{"scope": "accounts consent:${consentId}","client_id": "client1"}`;
   // eslint-disable-next-line no-undef
   return Buffer.from(accountsPayloadData).toString("base64");
 };
@@ -59,7 +59,7 @@ const consentUpdateToAuthorisedRequestObject = (authorization: string) => {
 export const consentPutToAuthorisedRequestBody = (authorization: string) =>
   JSON.stringify(consentUpdateToAuthorisedRequestObject(authorization));
 
-const consentUrl = `${BASE_URL}${CONSENTS_URL}`
+const consentUrl = `${BASE_URL}${CONSENTS_URL}`;
 
 export async function createConsentAndUpdateStatus(
   permission: string,

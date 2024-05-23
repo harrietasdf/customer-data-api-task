@@ -6,7 +6,7 @@ from the root run npm i
 
 ### About it
 
-This is the test suite for the test automation of the /accounts API 
+This is the test suite for the test automation of the /accounts API
 
 ## 💻 Requirments
 
@@ -20,17 +20,19 @@ Please ensure you've installed all the project dependancies before running the t
 
 ## 🚀 Running the tests
 
-Setup: 
+Setup:
 From the root of the project run the following command to install all node dependencies
+
 ```bash
 npm i
-``` 
+```
 
-Running: 
+Running:
 From the root of the project run the following command:
+
 ```bash
 npm run test
-``` 
+```
 
 ## Setting up CI
 
@@ -43,14 +45,14 @@ The folowing env vars need secrets to be setup, then added as a step in CI to be
 ## Test Suite structure
 
 - CUSTOMER-DATA-API-TASK
-    - tests
-        - specs
-            - test.spec.ts
-        - utils
-            - util.ts
-    - tsconfig.json
-    - README.md
-    - prettierrc
+  - tests
+    - specs
+      - test.spec.ts
+    - utils
+      - util.ts
+  - tsconfig.json
+  - README.md
+  - prettierrc
 - .env
 - .prettierignore
 - package-lock.json
