@@ -1,35 +1,50 @@
-#  Template Java Gradle build
-
-#  This template allows you to test and build your Java project with Gradle.
-#  The workflow allows running tests, code checkstyle and security scans on the default branch.
-
-# Prerequisites: appropriate project structure should exist in the repository.
-
-image: gradle:6.6.0
+image: node:18.18.2
 
 pipelines:
   default:
+    - step:
+        name: Build Docker Image
+        services:
+          - docker
+        caches:
+          - gradle
+          - node
+        script:
+          # Install necessary packages
+          - apt-get update
+          - apt-get install -y wget apt-transport-https
+          # Build Docker image
+          - docker build -t customer-data-api:latest .
     - parallel:
         - step:
-            name: Build and Test
-            caches:
-              - gradle
-              - node 
+            name: Test in Docker Container
+            services:
+              - docker
             script:
-              # Install Node.js and npm
-              - apt-get update
-              - apt-get install -y nodejs npm
-              # Install npm dependencies
-              - npm install
-              # Build the project with Gradle
-              - gradle build
-              # Run npm tests
-              - npm run test
+              # Run the tests inside the Docker container
+              - docker run --rm customer-data-api:latest npm run test
             after-script:
               - pipe: atlassian/checkstyle-report:0.3.0
         - step:
             name: Security Scan
             script:
-              # Run a security scan for sensitive data.
-              # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+              # Run a security scan for sensitive data
               - pipe: atlassian/git-secrets-scan:0.5.1
+        - step:
+            name: Push Docker Image
+            services:
+              - docker
+            script:
+              # Log in to Docker Hub or another registry
+              - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+              # Push the Docker image
+              - docker tag customer-data-api:latest $DOCKER_USERNAME/customer-data-api:latest
+              - docker push $DOCKER_USERNAME/customer-data-api:latest
+
+definitions:
+  caches:
+    node: ~/.npm
+
+  services:
+    docker:
+      memory: 1024
