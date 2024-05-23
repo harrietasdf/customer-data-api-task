@@ -1,5 +1,6 @@
 import { generateAccountsAuthToken } from "./auth";
-import { base_url, accounts } from "../env.json";
+
+export const { BASE_URL, CONSENTS_URL, ACCOUNTS_URL } = process.env 
 
 export const validAccountIds = {
   Nubank: "87caf37b-f70f-440c-bacd-3b9399ca5d74",
@@ -7,7 +8,7 @@ export const validAccountIds = {
 };
 
 export const callGetAccounts = async (consentId: string) => {
-  const accountsGetResponse = await fetch(`${base_url}${accounts}`, {
+  const accountsGetResponse = await fetch(`${BASE_URL}${ACCOUNTS_URL}`, {
     method: "GET",
     headers: generateAccountsAuthToken(consentId),
   });
@@ -19,7 +20,7 @@ export const callGetAccountsByAccountId = async (
   accountId: string,
 ) => {
   const accountsByIdGetResponse = await fetch(
-    `${base_url}${accounts}/${accountId}`,
+    `${BASE_URL}${ACCOUNTS_URL}/${accountId}`,
     {
       method: "GET",
       headers: generateAccountsAuthToken(consentId),

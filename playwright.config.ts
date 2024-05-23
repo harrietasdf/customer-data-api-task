@@ -1,4 +1,7 @@
 import { defineConfig } from "@playwright/test";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 export default defineConfig({
   testDir: "tests/",
@@ -7,11 +10,6 @@ export default defineConfig({
   // eslint-disable-next-line no-undef
   retries: process.env.CI ? 2 : 0,
   reporter: "html",
-  // use: {
-  //   baseURL: "http://localhost:8080/test-api",
-  //   trace: 'on-first-retry',
-  // },
-
   // Run the local dev server before starting the tests
   webServer: {
     command: "npm run start:server",

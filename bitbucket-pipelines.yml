@@ -14,8 +14,17 @@ pipelines:
             name: Build and Test
             caches:
               - gradle
+              - node 
             script:
+              # Install Node.js and npm
+              - apt-get update
+              - apt-get install -y nodejs npm
+              # Install npm dependencies
+              - npm install
+              # Build the project with Gradle
               - gradle build
+              # Run npm tests
+              - npm run test
             after-script:
               - pipe: atlassian/checkstyle-report:0.3.0
         - step:

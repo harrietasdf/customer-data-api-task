@@ -5,8 +5,7 @@ import {
   GetAccountsErrorResponseObject,
 } from "../utils/accountsResponseTypes";
 import { getAccountsResponseValidatior } from "../utils/openApiSpec";
-import { callGetAccounts } from "../utils/utils";
-import { base_url, accounts } from "../env.json";
+import { ACCOUNTS_URL, BASE_URL, callGetAccounts } from "../utils/utils";
 
 test("User with valid authentication sees an accounts list", async function ({}) {
   const { consentId, consentPutResponseStatus } =
@@ -23,7 +22,6 @@ test("User with valid authentication sees an accounts list", async function ({})
     200,
     accountsGetResponseBody,
   );
-
   if (typeof validationErrors !== undefined) {
     console.log("Response status code:", accountsGetResponse.status);
     console.log("Response body:", accountsGetResponseBody);
@@ -77,7 +75,7 @@ test("User has credit card read consent, receive a 403 forbidden error", async f
 test("User has no authorization header, receive a 401 unauthorized error", async function ({
   request,
 }) {
-  const accountsGetResponse = await request.get(`${base_url}${accounts}`);
+  const accountsGetResponse = await request.get(`${BASE_URL}${ACCOUNTS_URL}`);
   const accountsGetResponseBody: GetAccountsErrorResponseObject =
     await accountsGetResponse.json();
   //I would use getAccountsResponseValidatior here if the openAPISpec had full error handling response body

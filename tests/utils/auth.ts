@@ -1,6 +1,5 @@
 import { fetch } from "fetch-h2";
-import { base_url, consents } from "../env.json";
-import { expect } from "@playwright/test";
+import { BASE_URL, CONSENTS_URL } from "./utils";
 
 const encodeHeader = () => {
   const headerData = '{"alg": "none","typ": "JWT"}';
@@ -60,7 +59,7 @@ const consentUpdateToAuthorisedRequestObject = (authorization: string) => {
 export const consentPutToAuthorisedRequestBody = (authorization: string) =>
   JSON.stringify(consentUpdateToAuthorisedRequestObject(authorization));
 
-const consentUrl = `${base_url}${consents}`;
+const consentUrl = `${BASE_URL}${CONSENTS_URL}`
 
 export async function createConsentAndUpdateStatus(
   permission: string,

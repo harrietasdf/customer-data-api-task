@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:server": "make run-local",
-    "test": "npx playwright test acoountsGetByAccountId.spec.ts",
+    "test": "npx playwright test",
     "prettier": "npx prettier . --write"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "@apidevtools/swagger-parser": "^10.1.0",
     "@playwright/test": "^1.44.0",
     "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
     "fetch-h2": "^3.0.2",
     "js-yaml": "^4.1.0",
     "openapi-response-validator": "^12.1.3",
