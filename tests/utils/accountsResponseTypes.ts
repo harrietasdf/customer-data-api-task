@@ -1,4 +1,4 @@
-export type getAccountsResponseObject = {
+export type getAccounts200ResponseObject = {
   data: [accountsDataObject];
 };
 
@@ -8,3 +8,7 @@ export type accountsDataObject = {
   accountNumber: string;
   creationDateTime: string;
 };
+
+export type getAccountsErrorResponseObject = {
+  message: string
+}

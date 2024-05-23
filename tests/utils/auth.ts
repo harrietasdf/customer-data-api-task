@@ -1,5 +1,6 @@
 import { fetch } from "fetch-h2";
 import { base_url, consents } from "../env.json"
+import { expect } from "@playwright/test";
 
 const encodeHeader = () => {
   const headerData = '{"alg": "none","typ": "JWT"}';
@@ -80,9 +81,9 @@ export async function createConsentAndUpdateStatus(
   }
   const consentPostResponseBody = await consentPostResponse.json();
   const consentId = consentPostResponseBody.data.consentId;
-
+ 
   // Put request to update consent status
-  const consentPutResponse = await fetch(`${consentUrl}${consentId}`, {
+  const consentPutResponse = await fetch(`${consentUrl}/${consentId}`, {
     method: "PUT",
     headers: consentHeaderObject,
     body: consentPutToAuthorisedRequestBody(authorization),
@@ -91,7 +92,7 @@ export async function createConsentAndUpdateStatus(
   // Check if the PUT request was successful
   if (!consentPutResponse.ok) {
     throw new Error(
-      `PUT request failed: ${consentPostResponse.status} ${consentPostResponse.statusText}`,
+      `PUT request failed: ${consentPutResponse.status} ${consentPutResponse.statusText}`,
     );
   }
 
