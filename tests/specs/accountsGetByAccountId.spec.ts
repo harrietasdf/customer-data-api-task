@@ -41,7 +41,7 @@ test("User with Invalid account ID, receive a 404 Not Found error", async functi
   expect(consentPutResponseStatus).toEqual("AUTHORISED");
   const accountsGetByIdResponse = await callGetAccountsByAccountId(
     consentId,
-    "90caf90b-f90f-440c-bacd-3b9399ca5d90",
+    "123456-1",
   );
 
   const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
@@ -58,7 +58,7 @@ test("User inputs malicious characters in account ID, receive 401 unauthorized",
   expect(consentPutResponseStatus).toEqual("AUTHORISED");
   const accountsGetByIdResponse = await callGetAccountsByAccountId(
     consentId,
-    "%!@$^(%*`$)}@~:><?{}",
+    "%!@$^(%*`$)}_@~:><?{}",
   );
   const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
     await accountsGetByIdResponse.json();
@@ -68,4 +68,24 @@ test("User inputs malicious characters in account ID, receive 401 unauthorized",
   expect(accountsGetByIdResponseBody.message).toEqual("Unauthorized");
 });
 
-//TODO add test for accessing another person's accounts using their consentId
+test("User with valid authentication attempts to access another user's accounts list, receives 403 forbidden", async function ({}) {
+  const { consentId: consentIdUserA, consentPutResponseStatus: consentAPutResponseStatus } =
+    await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
+  expect(consentAPutResponseStatus).toEqual("AUTHORISED");
+
+  const { consentId: consentIdUserB, consentPutResponseStatus: consentPutBResponseStatus } =
+    await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
+  expect(consentPutBResponseStatus).toEqual("AUTHORISED");
+
+  const accountsGetByIdResponse = await callGetAccountsByAccountId(
+    consentIdUserA,
+    "accountNumberUserB",
+  );
+
+    const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
+    await accountsGetByIdResponse.json();
+
+  // I would use the getAccountsByIdResponseValidatior() here if the OpenAPISpec had response error handling info
+  expect(accountsGetByIdResponse.status).toEqual(403);
+  expect(accountsGetByIdResponseBody.message).toEqual("Forbidden");
+});

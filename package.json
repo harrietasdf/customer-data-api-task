@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:server": "make run-local",
-    "test": "npx playwright test accounts.spec.ts",
+    "test": "npx playwright test",
     "prettier": "npx prettier . --write"
   },
   "repository": {
