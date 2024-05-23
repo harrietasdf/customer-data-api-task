@@ -1,8 +1,9 @@
 import test, { expect } from "@playwright/test";
 import { createConsentAndUpdateStatus } from "../utils/auth";
-import { callGetAccountsByAccountId, validAccountIds } from "../utils/utils";
+import { callGetAccounts, callGetAccountsByAccountId, validAccountIds } from "../utils/utils";
 import { getAccountsByIdResponseValidatior } from "../utils/openApiSpec";
 import {
+  AccountsDataObject,
   GetAccountsByIdResponseObject,
   GetAccountsErrorResponseObject,
 } from "../utils/accountsResponseTypes";
@@ -77,13 +78,20 @@ test("User with valid authentication attempts to access another user's accounts 
     await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
   expect(consentPutBResponseStatus).toEqual("AUTHORISED");
 
+  const getAccountNumberUserB = async () => {
+    const getAccountsUserBResponse = await callGetAccounts(consentIdUserB)
+    const getAccountsUserBResponseBody: AccountsDataObject = await getAccountsUserBResponse.json()
+    return getAccountsUserBResponseBody.accountNumber
+  }
+  const accountIdUserB = await getAccountNumberUserB()
+
   const accountsGetByIdResponse = await callGetAccountsByAccountId(
     consentIdUserA,
-    "accountNumberUserB",
+    accountIdUserB,
   );
 
-    const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
-    await accountsGetByIdResponse.json();
+  const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
+  await accountsGetByIdResponse.json();
 
   // I would use the getAccountsByIdResponseValidatior() here if the OpenAPISpec had response error handling info
   expect(accountsGetByIdResponse.status).toEqual(403);
