@@ -12,44 +12,44 @@ test("User with valid authentication sees an accounts list", async function ({})
     await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
   expect(consentPutResponseStatus).toEqual("AUTHORISED");
 
-  const accountsGetResponse = await callGetAccountsByAccountId(
+  const accountsGetByIdResponse = await callGetAccountsByAccountId(
     consentId,
     validAccountIds.Itau,
   );
 
-  const accountsGetResponseBody: GetAccountsByIdResponseObject =
-    await accountsGetResponse.json();
+  const accountsGetByIdResponseBody: GetAccountsByIdResponseObject =
+    await accountsGetByIdResponse.json();
 
   const getAccountsResponseValidator =
     await getAccountsByIdResponseValidatior();
   const validationErrors = getAccountsResponseValidator.validateResponse(
     200,
-    accountsGetResponseBody,
+    accountsGetByIdResponseBody,
   );
 
   if (typeof validationErrors !== undefined) {
-    console.log("Response status code:", accountsGetResponse.status);
-    console.log("Response body:", accountsGetResponseBody);
+    console.log("Response status code:", accountsGetByIdResponse.status);
+    console.log("Response body:", accountsGetByIdResponseBody);
   }
 
-  expect(accountsGetResponse.status).toEqual(200);
+  expect(accountsGetByIdResponse.status).toEqual(200);
 });
 
 test("User with Invalid account ID, receive a 404 Not Found error", async function ({}) {
   const { consentId, consentPutResponseStatus } =
     await createConsentAndUpdateStatus("ACCOUNTS_READ", "AUTHORISED");
   expect(consentPutResponseStatus).toEqual("AUTHORISED");
-  const accountsGetResponse = await callGetAccountsByAccountId(
+  const accountsGetByIdResponse = await callGetAccountsByAccountId(
     consentId,
     "90caf90b-f90f-440c-bacd-3b9399ca5d90",
   );
 
-  const accountsGetResponseBody: GetAccountsErrorResponseObject =
-    await accountsGetResponse.json();
+  const accountsGetByIdResponseBody: GetAccountsErrorResponseObject =
+    await accountsGetByIdResponse.json();
 
   // I would use the getAccountsByIdResponseValidatior() here if the OpenAPISpec had response error handling info
-  expect(accountsGetResponse.status).toEqual(404);
-  expect(accountsGetResponseBody.message).toEqual("Not Found");
+  expect(accountsGetByIdResponse.status).toEqual(404);
+  expect(accountsGetByIdResponseBody.message).toEqual("Not Found");
 });
 
 test("User inputs malicious characters in account ID, receive 401 unauthorized", async function ({}) {
